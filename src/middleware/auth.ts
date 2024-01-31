@@ -3,28 +3,30 @@ import jwt from 'jsonwebtoken';
 import { JwtPayload } from "jsonwebtoken";
 
 declare global {
-  namespace Express{
+  namespace Express {
     interface Request {
       userId: string;
     }
   }
 }
 
-const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-  const token = req.cookies["auth_token"];
-  if(!token){
-    return res.status(401).json({message: "Unauthorized"});
+const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
+  const authorizationHeader = req.headers.authorization;
+
+  if (!authorizationHeader || !authorizationHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  try{
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string);
+  const token = authorizationHeader.slice(7); // Remove "Bearer " from the token string
 
-    req.userId = (decoded as JwtPayload).userId;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as JwtPayload;
+
+    req.userId = decoded.userId;
     next();
-  }
-  catch(error){
-    return res.status(401).json({message: "Unaruthorized"});
+  } catch (error) {
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 };
 
-export default verifyToken;
+export default authenticateUser;

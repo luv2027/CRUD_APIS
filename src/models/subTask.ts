@@ -12,6 +12,7 @@ export type SubTaskType = {
 const SubTaskSchema = new mongoose.Schema({
   _id: {type: Number, required: true, unique:true},
   task_id: {type: Number, required: true},
+  status: {type: Number, required: true},
   created_at: {type: Date, require: true}, 
   updated_at: {type: Date, require: true}, 
   deleted_at: {type: Date, require: true}, 

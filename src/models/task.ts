@@ -8,6 +8,7 @@ export type TaskType = {
   priority: number;
   status: "TODO" | "IN_PROGRESS" | "DONE";
   user: string;
+  deleted_at: Date;
 };
 
 const TaskSchema = new mongoose.Schema({
@@ -17,6 +18,7 @@ const TaskSchema = new mongoose.Schema({
   priority: {type: Number, required: true},
   status: {type: String, default: "TODO", required: true},
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+  deleted_at: {type: Date, default: null},
 });
 
 const Task = mongoose.model<TaskType>("Task", TaskSchema);

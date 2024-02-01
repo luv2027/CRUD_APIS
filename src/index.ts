@@ -98,7 +98,6 @@ app.post('/api/tasks', authenticateUser, [
   }),
   check("priority", "Priority is required").isNumeric(),
   check("status", "Status is required").isString(),
-  check("user", "User is required").isString(),
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req);
 
@@ -182,7 +181,7 @@ app.get('/api/tasks/:priority',authenticateUser, async (req: Request, res: Respo
 
 
 
-app.get('/api/subtasks',authenticateUser,  async (req, res) => {
+app.get('/api/subtasks',authenticateUser,  async (req: Request, res: Response) => {
   try{
     const subtasks = await SubTask.find({deleted_at: null});
     res.status(200).json({message: "Subtasks fetched successfully", subtasks});
@@ -195,7 +194,7 @@ app.get('/api/subtasks',authenticateUser,  async (req, res) => {
 
 
 //fetching subtasks by task_id
-app.get('/api/subtasks/:task_id',authenticateUser,  async (req, res) => {
+app.get('/api/subtasks/:task_id',authenticateUser,  async (req: Request, res: Response) => {
   try{
     const subtasks = await SubTask.find({task_id: req.params.task_id});
     res.status(200).json({message: "Subtasks fetched successfully", subtasks});

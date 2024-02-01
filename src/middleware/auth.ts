@@ -17,7 +17,7 @@ const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const token = authorizationHeader.slice(7); // Remove "Bearer " from the token string
+  const token = authorizationHeader.slice(7); // 
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY as string) as JwtPayload;

@@ -7,8 +7,7 @@ export type UserType = {
 };
 
 const UserSchema = new mongoose.Schema({
-  _id : {type: Number, required: true, unique:true}
-  , phone_number : {type: Number, required: true}
+  phone_number : {type: Number, required: true}
   , priority : {type: Number, required: true}, 
 });
 
